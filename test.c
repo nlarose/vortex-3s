@@ -6,7 +6,8 @@
 #pragma config(Sensor, dgtl1,  ,               sensorQuadEncoder)
 #pragma config(Sensor, dgtl3,  leftEncoder,    sensorNone)
 #pragma config(Sensor, dgtl4,  pinceEncodeurConsigne, sensorQuadEncoder)
-#pragma config(Sensor, dgtl6,  touchSensor,    sensorTouch)
+#pragma config(Sensor, dgtl6,  Solenoide1,     sensorDigitalOut)
+#pragma config(Sensor, dgtl7,  Solenoide2,     sensorDigitalOut)
 #pragma config(Sensor, dgtl8,  sonarSensor,    sensorSONAR_cm)
 #pragma config(Sensor, dgtl11, armEncoder,     sensorQuadEncoder)
 #pragma config(Sensor, I2C_1,  rightIME,       sensorQuadEncoderOnI2CPort,    , AutoAssign)
@@ -53,6 +54,15 @@ task main()
 		encoderVal = SensorValue[pinceEncodeurConsigne];
 		clawEncVal = nMotorEncoder[clawMotor];
 
+		if(vexRT[Btn6U] == 1)           // If button 6U (upper right shoulder button) is pressed:
+		{
+			SensorValue[Solenoide1] = 1;  // …activate the solenoid.
+		}
+		else // If button 6U (upper right shoulder button) is  NOT pressed:
+		{
+			SensorValue[Solenoide1] = 0;  // ..deactivate the solenoid.
+		}
+
 		positionDesire = encoderVal;
 		if (positionDesire < 0)
 		{
@@ -83,7 +93,7 @@ task main()
 		motor[clawMotor] = commandeClaw;
 		//nMotorEncoderTarget [clawMotor] = positionDesire;
 
-		controleBras();
+		//controleBras();
 		joystickControl(leftMotor, Ch3, 10);
 		joystickControl(rightMotor, Ch2, 10);
 	}
