@@ -56,11 +56,11 @@ task main()
 
 		if(vexRT[Btn6U] == 1)           // If button 6U (upper right shoulder button) is pressed:
 		{
-			SensorValue[Solenoide1] = 1;  // …activate the solenoid.
+			SensorValue[Solenoide1] = 1;  // activer switch pneumatique
 		}
 		else // If button 6U (upper right shoulder button) is  NOT pressed:
 		{
-			SensorValue[Solenoide1] = 0;  // ..deactivate the solenoid.
+			SensorValue[Solenoide1] = 0;  // dessative switch
 		}
 
 		positionDesire = encoderVal;
