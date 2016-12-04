@@ -36,14 +36,21 @@ task main()
 
 		if (vexRT[Btn8D] == 1)
     {
-      SensorValue[piston1]= 1;
+      SensorValue[piston1]= 1; //activer les pistons
 			SensorValue[piston2]= 1;
+			time1[timer1]=0;//remetttre a 0 le compteur de temps
     }
-    else //sinon
+    //si le temps est plus grand que un quart de seconde,desactive les pistons
+    if (time1[timer1]>250)
     {
-      SensorValue[piston1]= 0;
-			SensorValue[piston2]= 0;
+    	SensorValue[piston2]= 0;
+    	SensorValue[piston1]= 0;
     }
 
-	}
+
+
+
+
+	} // fin de boucle
+
 }
