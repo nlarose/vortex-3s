@@ -3,6 +3,8 @@
 #pragma config(Sensor, in2,    centerLineFollower, sensorLineFollower)
 #pragma config(Sensor, in3,    rightLineFollower, sensorLineFollower)
 #pragma config(Sensor, in6,    gyro,           sensorGyro)
+#pragma config(Sensor, dgtl1,  piston1,        sensorDigitalOut)
+#pragma config(Sensor, dgtl2,  piston2,        sensorDigitalOut)
 #pragma config(Sensor, I2C_1,  rightIME,       sensorQuadEncoderOnI2CPort,    , AutoAssign)
 #pragma config(Sensor, I2C_2,  leftIME,        sensorQuadEncoderOnI2CPort,    , AutoAssign)
 #pragma config(Sensor, I2C_3,  armIME,         sensorNone)
@@ -31,5 +33,17 @@ task main()
 		armControl(ElevAvGauche, Btn5U, Btn5D, 75);
 		armControl(PelleDroite, Btn6U, Btn6D, 75);
 		armControl(PelleGauche, Btn6U, Btn6D, 75);
+
+		if (vexRT[Btn8D] == 1)
+    {
+      SensorValue[piston1]= 1;
+			SensorValue[piston2]= 1;
+    }
+    else //sinon
+    {
+      SensorValue[piston1]= 0;
+			SensorValue[piston2]= 0;
+    }
+
 	}
 }
