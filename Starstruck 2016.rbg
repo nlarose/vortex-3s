@@ -68,6 +68,14 @@
     </Parameters>
 </ProgrammingBlock>
 
+<ProgrammingBlock type="loop" loopType="IfThen">
+    <Parameters>
+        <Parameter name="LHS" type="typedef">SensorValue[llimithaut]</Parameter>
+        <Parameter name="operator" type="typedef">==</Parameter>
+        <Parameter name="RHS" type="short">1</Parameter>
+    </Parameters>
+</ProgrammingBlock>
+
 <ProgrammingBlock type="functionCall" function="setMultipleMotors">
     <Parameters>
         <Parameter name="speed" type="short">75</Parameter>
@@ -77,6 +85,19 @@
         <Parameter name="fourthMotor" type="base typedef" typeDef="tMotor">ElevArrDroit</Parameter>
     </Parameters>
 </ProgrammingBlock>
+
+<ProgrammingBlock type="else"/>
+
+<ProgrammingBlock type="functionCall" function="stopMultipleMotors">
+    <Parameters>
+        <Parameter name="firstMotor" type="base typedef" typeDef="tMotor">ElevAvGauche</Parameter>
+        <Parameter name="secondMotor" type="base typedef" typeDef="tMotor">ElevArrGauche</Parameter>
+        <Parameter name="thirdMotor" type="base typedef" typeDef="tMotor">ElevArrDroit</Parameter>
+        <Parameter name="fourthMotor" type="base typedef" typeDef="tMotor">ElevAvDroit</Parameter>
+    </Parameters>
+</ProgrammingBlock>
+
+<ProgrammingBlock type="end"/>
 
 <ProgrammingBlock type="else"/>
 
@@ -111,6 +132,14 @@
     </Parameters>
 </ProgrammingBlock>
 
+<ProgrammingBlock type="loop" loopType="IfThen">
+    <Parameters>
+        <Parameter name="LHS" type="typedef">SensorValue[limitbas]</Parameter>
+        <Parameter name="operator" type="typedef">==</Parameter>
+        <Parameter name="RHS" type="short">1</Parameter>
+    </Parameters>
+</ProgrammingBlock>
+
 <ProgrammingBlock type="functionCall" function="setMultipleMotors">
     <Parameters>
         <Parameter name="speed" type="short">-75</Parameter>
@@ -120,6 +149,19 @@
         <Parameter name="fourthMotor" type="base typedef" typeDef="tMotor">ElevAvGauche</Parameter>
     </Parameters>
 </ProgrammingBlock>
+
+<ProgrammingBlock type="else"/>
+
+<ProgrammingBlock type="functionCall" function="stopMultipleMotors">
+    <Parameters>
+        <Parameter name="firstMotor" type="base typedef" typeDef="tMotor">ElevAvDroit</Parameter>
+        <Parameter name="secondMotor" type="base typedef" typeDef="tMotor">ElevArrDroit</Parameter>
+        <Parameter name="thirdMotor" type="base typedef" typeDef="tMotor">ElevArrGauche</Parameter>
+        <Parameter name="fourthMotor" type="base typedef" typeDef="tMotor">ElevAvGauche</Parameter>
+    </Parameters>
+</ProgrammingBlock>
+
+<ProgrammingBlock type="end"/>
 
 <ProgrammingBlock type="else"/>
 
@@ -174,11 +216,8 @@
 #pragma config(Sensor, in2,    centerLineFollower, sensorLineFollower)
 #pragma config(Sensor, in3,    rightLineFollower, sensorLineFollower)
 #pragma config(Sensor, in6,    gyro,           sensorGyro)
-#pragma config(Sensor, dgtl1,  rightEncoder,   sensorQuadEncoder)
-#pragma config(Sensor, dgtl3,  leftEncoder,    sensorQuadEncoder)
-#pragma config(Sensor, dgtl6,  touchSensor,    sensorTouch)
-#pragma config(Sensor, dgtl8,  sonarSensor,    sensorSONAR_cm)
-#pragma config(Sensor, dgtl11, armEncoder,     sensorQuadEncoder)
+#pragma config(Sensor, dgtl3,  limitbas,       sensorDigitalIn)
+#pragma config(Sensor, dgtl4,  llimithaut,     sensorDigitalIn)
 #pragma config(Sensor, I2C_1,  rightIME,       sensorQuadEncoderOnI2CPort,    , AutoAssign)
 #pragma config(Sensor, I2C_2,  leftIME,        sensorQuadEncoderOnI2CPort,    , AutoAssign)
 #pragma config(Sensor, I2C_3,  armIME,         sensorNone)
@@ -200,11 +239,8 @@
 #pragma config(Sensor, in2,    centerLineFollower, sensorLineFollower)
 #pragma config(Sensor, in3,    rightLineFollower, sensorLineFollower)
 #pragma config(Sensor, in6,    gyro,           sensorGyro)
-#pragma config(Sensor, dgtl1,  rightEncoder,   sensorQuadEncoder)
-#pragma config(Sensor, dgtl3,  leftEncoder,    sensorQuadEncoder)
-#pragma config(Sensor, dgtl6,  touchSensor,    sensorTouch)
-#pragma config(Sensor, dgtl8,  sonarSensor,    sensorSONAR_cm)
-#pragma config(Sensor, dgtl11, armEncoder,     sensorQuadEncoder)
+#pragma config(Sensor, dgtl3,  limitbas,       sensorDigitalIn)
+#pragma config(Sensor, dgtl4,  llimithaut,     sensorDigitalIn)
 #pragma config(Sensor, I2C_1,  rightIME,       sensorQuadEncoderOnI2CPort,    , AutoAssign)
 #pragma config(Sensor, I2C_2,  leftIME,        sensorQuadEncoderOnI2CPort,    , AutoAssign)
 #pragma config(Sensor, I2C_3,  armIME,         sensorNone)
@@ -232,7 +268,11 @@ task main()
 		armControl(PelleGauche, Btn6U, Btn6D, 75);
 		if (vexRT[Btn5U] == 1) {
 			if (vexRT[Btn5D] == 0) {
-				setMultipleMotors(75, ElevArrGauche, ElevAvGauche, ElevAvDroit, ElevArrDroit);
+				if (SensorValue[llimithaut] == 1) {
+					setMultipleMotors(75, ElevArrGauche, ElevAvGauche, ElevAvDroit, ElevArrDroit);
+				} else {
+					stopMultipleMotors(ElevAvGauche, ElevArrGauche, ElevArrDroit, ElevAvDroit);
+				}
 			} else {
 				stopMultipleMotors(ElevAvDroit, ElevArrDroit, ElevArrGauche, ElevAvGauche);
 			}
@@ -240,7 +280,11 @@ task main()
 		}
 		if (vexRT[Btn5D] == 1) {
 			if (vexRT[Btn5U] == 0) {
-				setMultipleMotors(-75, ElevAvDroit, ElevArrDroit, ElevArrGauche, ElevAvGauche);
+				if (SensorValue[limitbas] == 1) {
+					setMultipleMotors(-75, ElevAvDroit, ElevArrDroit, ElevArrGauche, ElevAvGauche);
+				} else {
+					stopMultipleMotors(ElevAvDroit, ElevArrDroit, ElevArrGauche, ElevAvGauche);
+				}
 			} else {
 				stopMultipleMotors(ElevAvDroit, ElevArrDroit, ElevArrGauche, ElevAvGauche);
 			}

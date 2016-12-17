@@ -5,6 +5,8 @@
 #pragma config(Sensor, in6,    gyro,           sensorGyro)
 #pragma config(Sensor, dgtl1,  piston1,        sensorDigitalOut)
 #pragma config(Sensor, dgtl2,  piston2,        sensorDigitalOut)
+#pragma config(Sensor, dgtl3,  limitbas,       sensorDigitalIn)
+#pragma config(Sensor, dgtl4,  llimithaut,     sensorDigitalIn)
 #pragma config(Sensor, I2C_1,  rightIME,       sensorQuadEncoderOnI2CPort,    , AutoAssign)
 #pragma config(Sensor, I2C_2,  leftIME,        sensorQuadEncoderOnI2CPort,    , AutoAssign)
 #pragma config(Sensor, I2C_3,  armIME,         sensorNone)
@@ -27,13 +29,38 @@ task main()
 		joystickControl(baseArrDroit, Ch2, 10);
 		joystickControl(baseAvGauche, Ch3, 10);
 		joystickControl(baseArrGauche, Ch3, 10);
-		armControl(ElevAvDroit, Btn5U, Btn5D, 75);
-		armControl(ElevArrDroit, Btn5U, Btn5D, 75);
-		armControl(ElevArrGauche, Btn5U, Btn5D, 75);
-		armControl(ElevAvGauche, Btn5U, Btn5D, 75);
+
 		armControl(PelleDroite, Btn6U, Btn6D, 75);
 		armControl(PelleGauche, Btn6U, Btn6D, 75);
-
+		if (vexRT[Btn5U] == 1) {
+			if (vexRT[Btn5D] == 0) {
+				if (SensorValue[llimithaut] == 1) {
+					setMultipleMotors(75, ElevArrGauche, ElevAvGauche, ElevAvDroit, ElevArrDroit);
+				} else {
+					stopMultipleMotors(ElevAvGauche, ElevArrGauche, ElevArrDroit, ElevAvDroit);
+				}
+			} else {
+				stopMultipleMotors(ElevAvDroit, ElevArrDroit, ElevArrGauche, ElevAvGauche);
+			}
+		} else {
+		}
+		if (vexRT[Btn5D] == 1) {
+			if (vexRT[Btn5U] == 0) {
+				if (SensorValue[limitbas] == 1) {
+					setMultipleMotors(-75, ElevAvDroit, ElevArrDroit, ElevArrGauche, ElevAvGauche);
+				} else {
+					stopMultipleMotors(ElevAvDroit, ElevArrDroit, ElevArrGauche, ElevAvGauche);
+				}
+			} else {
+				stopMultipleMotors(ElevAvDroit, ElevArrDroit, ElevArrGauche, ElevAvGauche);
+			}
+		} else {
+		}
+		if (vexRT[Btn5D] == 0) {
+			if (vexRT[Btn5U] == 0) {
+				stopMultipleMotors(ElevArrGauche, ElevAvDroit, ElevAvGauche, ElevArrDroit);
+			}
+		}
 		if (vexRT[Btn8D] == 1)
     {
       SensorValue[piston1]= 1; //activer les pistons
