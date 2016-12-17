@@ -36,42 +36,6 @@
 
 <ProgrammingBlock type="functionCall" function="armControl">
     <Parameters>
-        <Parameter name="armMotorPort" type="base typedef" typeDef="tMotor">ElevAvDroit</Parameter>
-        <Parameter name="upButton" type="base typedef" typeDef="TVexJoysticks">Btn5U</Parameter>
-        <Parameter name="downButton" type="base typedef" typeDef="TVexJoysticks">Btn5D</Parameter>
-        <Parameter name="armSpeed" type="short">75</Parameter>
-    </Parameters>
-</ProgrammingBlock>
-
-<ProgrammingBlock type="functionCall" function="armControl">
-    <Parameters>
-        <Parameter name="armMotorPort" type="base typedef" typeDef="tMotor">ElevArrDroit</Parameter>
-        <Parameter name="upButton" type="base typedef" typeDef="TVexJoysticks">Btn5U</Parameter>
-        <Parameter name="downButton" type="base typedef" typeDef="TVexJoysticks">Btn5D</Parameter>
-        <Parameter name="armSpeed" type="short">75</Parameter>
-    </Parameters>
-</ProgrammingBlock>
-
-<ProgrammingBlock type="functionCall" function="armControl">
-    <Parameters>
-        <Parameter name="armMotorPort" type="base typedef" typeDef="tMotor">ElevArrGauche</Parameter>
-        <Parameter name="upButton" type="base typedef" typeDef="TVexJoysticks">Btn5U</Parameter>
-        <Parameter name="downButton" type="base typedef" typeDef="TVexJoysticks">Btn5D</Parameter>
-        <Parameter name="armSpeed" type="short">75</Parameter>
-    </Parameters>
-</ProgrammingBlock>
-
-<ProgrammingBlock type="functionCall" function="armControl">
-    <Parameters>
-        <Parameter name="armMotorPort" type="base typedef" typeDef="tMotor">ElevAvGauche</Parameter>
-        <Parameter name="upButton" type="base typedef" typeDef="TVexJoysticks">Btn5U</Parameter>
-        <Parameter name="downButton" type="base typedef" typeDef="TVexJoysticks">Btn5D</Parameter>
-        <Parameter name="armSpeed" type="short">75</Parameter>
-    </Parameters>
-</ProgrammingBlock>
-
-<ProgrammingBlock type="functionCall" function="armControl">
-    <Parameters>
         <Parameter name="armMotorPort" type="base typedef" typeDef="tMotor">PelleDroite</Parameter>
         <Parameter name="upButton" type="base typedef" typeDef="TVexJoysticks">Btn6U</Parameter>
         <Parameter name="downButton" type="base typedef" typeDef="TVexJoysticks">Btn6D</Parameter>
@@ -87,6 +51,121 @@
         <Parameter name="armSpeed" type="short">75</Parameter>
     </Parameters>
 </ProgrammingBlock>
+
+<ProgrammingBlock type="loop" loopType="IfThen">
+    <Parameters>
+        <Parameter name="LHS" type="typedef">vexRT[Btn5U]</Parameter>
+        <Parameter name="operator" type="typedef">==</Parameter>
+        <Parameter name="RHS" type="float">1</Parameter>
+    </Parameters>
+</ProgrammingBlock>
+
+<ProgrammingBlock type="loop" loopType="IfThen">
+    <Parameters>
+        <Parameter name="LHS" type="typedef">vexRT[Btn5D]</Parameter>
+        <Parameter name="operator" type="typedef">==</Parameter>
+        <Parameter name="RHS" type="short">0</Parameter>
+    </Parameters>
+</ProgrammingBlock>
+
+<ProgrammingBlock type="functionCall" function="setMultipleMotors">
+    <Parameters>
+        <Parameter name="speed" type="short">75</Parameter>
+        <Parameter name="firstMotor" type="base typedef" typeDef="tMotor">ElevArrGauche</Parameter>
+        <Parameter name="secondMotor" type="base typedef" typeDef="tMotor">ElevAvGauche</Parameter>
+        <Parameter name="thirdMotor" type="base typedef" typeDef="tMotor">ElevAvDroit</Parameter>
+        <Parameter name="fourthMotor" type="base typedef" typeDef="tMotor">ElevArrDroit</Parameter>
+    </Parameters>
+</ProgrammingBlock>
+
+<ProgrammingBlock type="else"/>
+
+<ProgrammingBlock type="functionCall" function="stopMultipleMotors">
+    <Parameters>
+        <Parameter name="firstMotor" type="base typedef" typeDef="tMotor">ElevAvDroit</Parameter>
+        <Parameter name="secondMotor" type="base typedef" typeDef="tMotor">ElevArrDroit</Parameter>
+        <Parameter name="thirdMotor" type="base typedef" typeDef="tMotor">ElevArrGauche</Parameter>
+        <Parameter name="fourthMotor" type="base typedef" typeDef="tMotor">ElevAvGauche</Parameter>
+    </Parameters>
+</ProgrammingBlock>
+
+<ProgrammingBlock type="end"/>
+
+<ProgrammingBlock type="else"/>
+
+<ProgrammingBlock type="end"/>
+
+<ProgrammingBlock type="loop" loopType="IfThen">
+    <Parameters>
+        <Parameter name="LHS" type="typedef">vexRT[Btn5D]</Parameter>
+        <Parameter name="operator" type="typedef">==</Parameter>
+        <Parameter name="RHS" type="float">1</Parameter>
+    </Parameters>
+</ProgrammingBlock>
+
+<ProgrammingBlock type="loop" loopType="IfThen">
+    <Parameters>
+        <Parameter name="LHS" type="typedef">vexRT[Btn5U]</Parameter>
+        <Parameter name="operator" type="typedef">==</Parameter>
+        <Parameter name="RHS" type="short">0</Parameter>
+    </Parameters>
+</ProgrammingBlock>
+
+<ProgrammingBlock type="functionCall" function="setMultipleMotors">
+    <Parameters>
+        <Parameter name="speed" type="short">-75</Parameter>
+        <Parameter name="firstMotor" type="base typedef" typeDef="tMotor">ElevAvDroit</Parameter>
+        <Parameter name="secondMotor" type="base typedef" typeDef="tMotor">ElevArrDroit</Parameter>
+        <Parameter name="thirdMotor" type="base typedef" typeDef="tMotor">ElevArrGauche</Parameter>
+        <Parameter name="fourthMotor" type="base typedef" typeDef="tMotor">ElevAvGauche</Parameter>
+    </Parameters>
+</ProgrammingBlock>
+
+<ProgrammingBlock type="else"/>
+
+<ProgrammingBlock type="functionCall" function="stopMultipleMotors">
+    <Parameters>
+        <Parameter name="firstMotor" type="base typedef" typeDef="tMotor">ElevAvDroit</Parameter>
+        <Parameter name="secondMotor" type="base typedef" typeDef="tMotor">ElevArrDroit</Parameter>
+        <Parameter name="thirdMotor" type="base typedef" typeDef="tMotor">ElevArrGauche</Parameter>
+        <Parameter name="fourthMotor" type="base typedef" typeDef="tMotor">ElevAvGauche</Parameter>
+    </Parameters>
+</ProgrammingBlock>
+
+<ProgrammingBlock type="end"/>
+
+<ProgrammingBlock type="else"/>
+
+<ProgrammingBlock type="end"/>
+
+<ProgrammingBlock type="loop" loopType="IfOnly">
+    <Parameters>
+        <Parameter name="LHS" type="typedef">vexRT[Btn5D]</Parameter>
+        <Parameter name="operator" type="typedef">==</Parameter>
+        <Parameter name="RHS" type="short">0</Parameter>
+    </Parameters>
+</ProgrammingBlock>
+
+<ProgrammingBlock type="loop" loopType="IfOnly">
+    <Parameters>
+        <Parameter name="LHS" type="typedef">vexRT[Btn5U]</Parameter>
+        <Parameter name="operator" type="typedef">==</Parameter>
+        <Parameter name="RHS" type="short">0</Parameter>
+    </Parameters>
+</ProgrammingBlock>
+
+<ProgrammingBlock type="functionCall" function="stopMultipleMotors">
+    <Parameters>
+        <Parameter name="firstMotor" type="base typedef" typeDef="tMotor">ElevArrGauche</Parameter>
+        <Parameter name="secondMotor" type="base typedef" typeDef="tMotor">ElevAvDroit</Parameter>
+        <Parameter name="thirdMotor" type="base typedef" typeDef="tMotor">ElevAvGauche</Parameter>
+        <Parameter name="fourthMotor" type="base typedef" typeDef="tMotor">ElevArrDroit</Parameter>
+    </Parameters>
+</ProgrammingBlock>
+
+<ProgrammingBlock type="end"/>
+
+<ProgrammingBlock type="end"/>
 
 <ProgrammingBlock type="end"/>
 
@@ -149,12 +228,29 @@ task main()
 		joystickControl(baseArrDroit, Ch2, 10);
 		joystickControl(baseAvGauche, Ch3, 10);
 		joystickControl(baseArrGauche, Ch3, 10);
-		armControl(ElevAvDroit, Btn5U, Btn5D, 75);
-		armControl(ElevArrDroit, Btn5U, Btn5D, 75);
-		armControl(ElevArrGauche, Btn5U, Btn5D, 75);
-		armControl(ElevAvGauche, Btn5U, Btn5D, 75);
 		armControl(PelleDroite, Btn6U, Btn6D, 75);
 		armControl(PelleGauche, Btn6U, Btn6D, 75);
+		if (vexRT[Btn5U] == 1) {
+			if (vexRT[Btn5D] == 0) {
+				setMultipleMotors(75, ElevArrGauche, ElevAvGauche, ElevAvDroit, ElevArrDroit);
+			} else {
+				stopMultipleMotors(ElevAvDroit, ElevArrDroit, ElevArrGauche, ElevAvGauche);
+			}
+		} else {
+		}
+		if (vexRT[Btn5D] == 1) {
+			if (vexRT[Btn5U] == 0) {
+				setMultipleMotors(-75, ElevAvDroit, ElevArrDroit, ElevArrGauche, ElevAvGauche);
+			} else {
+				stopMultipleMotors(ElevAvDroit, ElevArrDroit, ElevArrGauche, ElevAvGauche);
+			}
+		} else {
+		}
+		if (vexRT[Btn5D] == 0) {
+			if (vexRT[Btn5U] == 0) {
+				stopMultipleMotors(ElevArrGauche, ElevAvDroit, ElevAvGauche, ElevArrDroit);
+			}
+		}
 	}
 }
 </CSource>
